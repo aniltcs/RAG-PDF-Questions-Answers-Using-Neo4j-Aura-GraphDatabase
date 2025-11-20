@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.embeddings import HuggingFaceInferenceAPIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
@@ -20,9 +19,7 @@ from langchain_community.vectorstores.neo4j_vector import Neo4jVector
 # ----------------------------
 load_dotenv()
 os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
-HF_TOKEN = os.getenv("HF_TOKEN")
-os.environ["HF_TOKEN"] = HF_TOKEN
-
+os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
 # Neo4j connection
 NEO4J_URI = os.getenv("NEO4J_URI")
@@ -40,11 +37,7 @@ llm = ChatGroq(
 # ----------------------------
 # Embedding model
 # ----------------------------
-# embeddings = HuggingFaceEmbeddings(
-#     model_name="sentence-transformers/all-MiniLM-L6-v2"
-# )
-embeddings = HuggingFaceInferenceAPIEmbeddings(
-    api_key=HF_TOKEN,
+embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
