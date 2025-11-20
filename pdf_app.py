@@ -4,7 +4,7 @@ import time
 from dotenv import load_dotenv
 
 from langchain_groq import ChatGroq
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
@@ -18,8 +18,8 @@ from langchain_community.vectorstores.neo4j_vector import Neo4jVector
 # Load environment variables
 # ----------------------------
 load_dotenv()
+os.environ['OPENAI_API_KEY']=os.getenv("OPENAI_API_KEY")
 os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
-os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
 # Neo4j connection
 NEO4J_URI = os.getenv("NEO4J_URI")
@@ -37,10 +37,7 @@ llm = ChatGroq(
 # ----------------------------
 # Embedding model
 # ----------------------------
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2",
-    model_kwargs={"device": "cpu"}
-)
+embeddings=OpenAIEmbeddings()
 
 # ----------------------------
 # Prompt Template
